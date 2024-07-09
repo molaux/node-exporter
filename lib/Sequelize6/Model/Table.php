@@ -319,15 +319,19 @@ class Table extends BaseTable
                 $relatedAlias = $this->extractForeignAlias($relatedColumnName, $referencedTableName, $foreignColumnName);
 
                 if ($relatedAlias) {
-                    $as = $this->pluralize($this->getNaming(sprintf('%s_%s_%s',
+                    $as = $this->getNaming(sprintf('%s_%s_%s',
                         $relatedAlias,
                         $mappedBy,
-                        $local->getOwningTable()->getModelName()), null, true));
+                        $local->getOwningTable()->getModelName()), null, true);
                 } else {
-                    $as = $this->pluralize($this->getNaming($local->getOwningTable()->getModelName(), null, true));
+                    $as = $this->getNaming($local->getOwningTable()->getModelName(), null, true);
                 }
             } else {
-                $as = $this->pluralize($this->getNaming($local->getOwningTable()->getModelName(), null, true));
+                $as = $this->getNaming($local->getOwningTable()->getModelName(), null, true);
+            }
+
+            if ($as !== "" && $local->isManyToOne()) {
+                $as = $this->pluralize($as);
             }
 
             if ($as === "" || $as === $local->getOwningTable()->getModelName()) {
