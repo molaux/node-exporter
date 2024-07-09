@@ -129,7 +129,7 @@ class Table extends BaseTable
     protected function asOptions()
     {
         $formatter = $this->getFormatter();
-        $result = array_merge([
+        $result = array_merge($formatter->getTableProp(), [
             'sequelize'         => $this->getJSObject('sequelize', false, true),
             'modelName'         => $this->getModelName(),
             'tableName'         => $this->getRawTableName(),
@@ -137,7 +137,7 @@ class Table extends BaseTable
             'timestamps'        => $this->getConfig()->get(Formatter::CFG_USE_TIMESTAMPS),
             'underscored'       => true,
             'syncOnAssociation' => false
-        ], $formatter->getTableProp());
+        ]);
 
         return $this->getJSObject($result);
     }
